@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-esp32-devkit-v1", "id": "esp", "top": -427.3, "left": 14.2, "attrs": {} },
+    {
+      "type": "wokwi-text",
+      "id": "commentTxt",
+      "top": -480,
+      "left": -9.6,
+      "attrs": { "text": "Follow NP SoE IoT Kit\nPB-LED pins" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "LEDLogicTxt",
+      "top": -460.8,
+      "left": 307.2,
+      "attrs": { "text": "LOW to on" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "PBLogicTxt",
+      "top": -240,
+      "left": 355.2,
+      "attrs": { "text": "Pressed LOW" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "RLEDTxt",
+      "top": -499.2,
+      "left": 153.6,
+      "attrs": { "text": "RLED\npin23" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "YLEDTxt",
+      "top": -499.2,
+      "left": 201.6,
+      "attrs": { "text": "YLED\npin19" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "GLEDTxt",
+      "top": -499.2,
+      "left": 249.6,
+      "attrs": { "text": "GLED\npin18" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "PB1Txt",
+      "top": -211.2,
+      "left": 48,
+      "attrs": { "text": "PB1 pin27" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "PB2Txt",
+      "top": -211.2,
+      "left": 326.4,
+      "attrs": { "text": "PB2 pin25" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -360,
+      "left": 133.85,
+      "rotate": 90,
+      "attrs": { "value": "1000" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -445.2,
+      "left": 147.8,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": -360,
+      "left": 229.85,
+      "rotate": 90,
+      "attrs": { "value": "1000" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": -445.2,
+      "left": 243.8,
+      "attrs": { "color": "green", "flip": "" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led3",
+      "top": -445.2,
+      "left": 195.8,
+      "attrs": { "color": "yellow" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": -360,
+      "left": 181.85,
+      "rotate": 90,
+      "attrs": { "value": "1000" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": -243.4,
+      "left": 144,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r4",
+      "top": -283.2,
+      "left": 316.25,
+      "rotate": 90,
+      "attrs": { "value": "22000" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn2",
+      "top": -243.4,
+      "left": 240,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r5",
+      "top": -283.2,
+      "left": 277.85,
+      "rotate": 90,
+      "attrs": { "value": "22000" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "esp:3V3", "r5:1", "green", [ "v-2.09", "h172.68", "v-48" ] ],
+    [ "r5:1", "r4:1", "green", [ "h0" ] ],
+    [ "btn2:2.l", "btn1:2.l", "green", [ "h0", "v29", "h-96" ] ],
+    [ "r5:2", "btn1:1.r", "green", [ "h0" ] ],
+    [ "r4:2", "btn2:1.r", "green", [ "h0", "v27.6" ] ],
+    [ "r4:1", "led2:A", "green", [ "h0", "v-96" ] ],
+    [ "led1:C", "r1:1", "green", [ "v0" ] ],
+    [ "led3:C", "r3:1", "green", [ "v0" ] ],
+    [ "led2:C", "r2:1", "green", [ "v0" ] ],
+    [ "led3:A", "led2:A", "green", [ "v9.6", "h48" ] ],
+    [ "led1:A", "led3:A", "green", [ "v9.6", "h48" ] ],
+    [ "esp:GND.1", "btn1:2.l", "black", [ "h19.08", "v65.01" ] ],
+    [ "esp:D23", "r1:2", "green", [ "h28.68", "v85.61" ] ],
+    [ "esp:D19", "r3:2", "green", [ "h19.08", "v45.81", "h76.8" ] ],
+    [ "esp:D18", "r2:2", "green", [ "h9.48", "v45.91", "h134.4" ] ],
+    [ "esp:D27", "btn1:1.r", "green", [ "h-19.02", "v141.61", "h220.8", "v-57.6" ] ],
+    [ "esp:D25", "btn2:1.r", "green", [ "h-28.62", "v170.71", "h326.4", "v-67.2" ] ]
+  ],
+  "dependencies": {}
+}
