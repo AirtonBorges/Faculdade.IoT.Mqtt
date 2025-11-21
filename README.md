@@ -11,6 +11,9 @@ $ pio run
 # Enviar o programa para a placa (upload)
 $ pio run --target upload
 
+# Monitorar a placa (a localidade deve estar na pasta do projeto)
+$ pio run --target monitor
+
 # Build um ambiente específico
 $ pio run -e nodemcuv2
 
