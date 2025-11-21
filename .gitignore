@@ -1,6 +1,7 @@
 .pio
 include
 lib
+test
 .vscode/launch.json
 .vscode/tasks.json
 .vscode/c_cpp_properties.json
