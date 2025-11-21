@@ -1,27 +1,26 @@
-How to build PlatformIO based project
+ESP8266 & DHT11 com MQTT
 =====================================
 
-1. [Install PlatformIO Core](https://docs.platformio.org/page/core.html)
-2. Download [development platform with examples](https://github.com/platformio/platform-espressif8266/archive/develop.zip)
-3. Extract ZIP archive
-4. Run these commands:
+1. [Instale o PlatformIO Core](https://docs.platformio.org/page/core.html)
+2. Execute esses comandos:
 
 ```shell
-# Change directory to example
-$ cd platform-espressif8266/examples/arduino-blink
-
-# Build project
+# Somente 'buildar' o projeto
 $ pio run
 
-# Upload firmware
+# Enviar o programa para a placa (upload)
 $ pio run --target upload
 
-# Build specific environment
+# Build um ambiente específico
 $ pio run -e nodemcuv2
 
-# Upload firmware for the specific environment
+# Enviar o programa para a placa em um ambiente específico
 $ pio run -e nodemcuv2 --target upload
 
-# Clean build files
+# Limpar arquivos de build
 $ pio run --target clean
 ```
+
+Retire no nome do arquivo o '.disabled' para que o PlatformIO o detecte e envie para o seu dispositivo (mantenha somente 1 arquivo .cpp na pasta para testar os outros projetos)
+
+No ícone do PlatformIO, clique na tarefa "Upload and Monitor" para além de 'buildar' e enviar seu código, também monitorá-lo.
