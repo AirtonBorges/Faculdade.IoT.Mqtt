@@ -2,9 +2,11 @@
     // See http://go.microsoft.com/fwlink/?LinkId=827846
     // for the documentation about the extensions.json format
     "recommendations": [
+        "ms-vscode.cpptools",
         "platformio.platformio-ide"
     ],
     "unwantedRecommendations": [
+        "franneck94.c-cpp-runner",
         "ms-vscode.cpptools-extension-pack"
     ]
 }
