@@ -13,6 +13,18 @@
 #include <PubSubClient.h>
 #include <Arduino.h>
 
+// IntelliSense stub: evita erro de 'no member named setEnterprisePassword' no editor
+#ifdef __INTELLISENSE__
+class ESP8266WiFiClass {
+public:
+  void beginEnterprise(const char* ssid) {}
+  void setEnterpriseIdentity(const char* id) {}
+  void setEnterpriseUsername(const char* user) {}
+  void setEnterprisePassword(const char* pass) {}
+};
+extern ESP8266WiFiClass WiFi;
+#endif
+
 // WiFi (WPA/WPA2-Enterprise)
 const char* ssid = "Caramelo";
 const char* ent_identity = "id_pessoa_univali_aqui"; // identity (também usado como username aqui)
@@ -58,14 +70,18 @@ void connectWiFiEnterprise() {
   delay(100);
 
   Serial.print("Conectando ao WiFi (WPA/WPA2-Enterprise) ");
-
-  // Inicia interface enterprise (API do core ESP8266)
-  // Observação: essas chamadas dependem do core do ESP8266; se ocorrerem erros
-  // de compilação, pode ser necessário atualizar o platform/espressif8266.
+  
+#if defined(WIFI_ESP_ENTERPRISE_SUPPORT)
   WiFi.beginEnterprise(ssid);
   WiFi.setEnterpriseIdentity(ent_identity);
   WiFi.setEnterpriseUsername(ent_username);
   WiFi.setEnterprisePassword(ent_password);
+#else
+  Serial.println("Aviso: API WPA/WPA2-Enterprise não disponível no core atual.");
+  Serial.println("Atualize o framework ESP8266 ou habilite suporte enterprise se necessário.");
+  // Como fallback apenas chamamos begin (pode falhar para redes enterprise)
+  WiFi.begin(ssid);
+#endif
 
   unsigned long start = millis();
   while (WiFi.status() != WL_CONNECTED) {

@@ -6,6 +6,7 @@
 
 #include <Arduino.h>
 #include <DHT.h>
+#include <math.h>
 
 // DHT11
 #define DHTPIN D5
@@ -26,24 +27,45 @@ void loop() {
   float h = dht.readHumidity();
   float t = dht.readTemperature();
 
+  // tolerâncias para considerar "mudança" entre leituras
+  const float TEMP_EPS = 0.1f; // 0.1 °C
+  const float HUM_EPS = 0.1f;  // 0.1 %
+
+  static float prevT = NAN;
+  static float prevH = NAN;
+
   if (isnan(h) || isnan(t)) {
     Serial.println("Falha ao ler o DHT11");
   } else {
-    Serial.print("Temperatura: ");
-    Serial.print(t, 1);
-    Serial.print(" °C    Umidade: ");
-    Serial.print(h, 1);
-    Serial.println(" %");
+    bool changed = false;
+
+    if (isnan(prevT) || fabsf(t - prevT) >= TEMP_EPS) {
+      changed = true;
+    }
+    if (isnan(prevH) || fabsf(h - prevH) >= HUM_EPS) {
+      changed = true;
+    }
+
+    if (changed) {
+      Serial.print("Temperatura: ");
+      Serial.print(t, 1);
+      Serial.print(" °C    Umidade: ");
+      Serial.print(h, 1);
+      Serial.println(" %");
+
+      // atualiza valores anteriores
+      prevT = t;
+      prevH = h;
+    }
+
     // Controle do LED: acende se umidade > 75%, caso contrário apaga
     if (h > 75.0) {
       digitalWrite(LED_BUILTIN, LOW); // liga (LED normalmente ativo LOW)
-      Serial.println("LED: ON (umidade > 75%)");
     } else {
       digitalWrite(LED_BUILTIN, HIGH); // desliga
-      Serial.println("LED: OFF (umidade <= 75%)");
     }
   }
 
-  // aguarda 10 segundos antes da próxima leitura
-  delay(10000);
+  // aguarda 1 segundo antes da próxima leitura
+  delay(1000);
 }
