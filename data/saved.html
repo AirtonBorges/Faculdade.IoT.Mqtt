@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Salvo</title>
+  <style>
+    *{box-sizing:border-box}
+    :root{ --surface:#ffffff; --bg:#f2f2f6; --text:#222; --primary:#6200ee }
+    @media (prefers-color-scheme: dark){ :root{ --surface:#161616; --bg:#0f0f10; --text:#eaeaea } }
+    html,body{height:100%;margin:0;padding:0;background:var(--bg);font-family:Roboto,Arial,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;}
+    .card{background:var(--surface);max-width:520px;width:100%;border-radius:16px;padding:22px 20px;box-shadow:0 10px 30px rgba(16,16,24,0.12);border:1px solid rgba(0,0,0,0.06);text-align:center}
+    .card h3{margin:0 0 10px;font-size:1.125rem}
+    .card p{margin:0.5rem 0;color:var(--text)}
+    .explain{margin-top:0.25rem;text-align:left}
+    .explain p{margin:0.25rem 0;color:var(--text);font-size:0.95rem}
+    .fade-out{opacity:0;transform:translateY(-6px);transition:opacity 320ms ease, transform 320ms ease}
+    .fade-in{opacity:1;transform:none;transition:opacity 320ms ease, transform 320ms ease}
+    .final-msg{opacity:0;color:var(--text);font-weight:600;margin-top:0.6rem}
+    .final-msg.show{opacity:1}
+    .count{font-weight:700}
+    .now-btn{margin-top:14px;display:inline-block;padding:10px 16px;border-radius:12px;border:none;background:var(--primary);color:#fff;cursor:pointer}
+    /* shared helpers (inlined) */
+    :root, body, .card, .title { transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease; }
+    .action-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1rem;border-radius:2rem;border:none;cursor:pointer;font-weight:400;font-size:clamp(0.95rem,3.5vw,1.05rem);align-self:center;white-space:nowrap;justify-content:center}
+    .action-btn.filled{background:var(--primary);color:var(--on-primary);box-shadow:0 6px 18px rgba(98,0,238,0.12)}
+    .action-btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--muted-border);min-width:0;padding:0.6rem 1rem}
+    body.dark .action-btn.ghost{border-color:var(--muted-border);color:var(--primary)}
+    .action-btn:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,0.08)}
+    .muted{color:var(--muted);font-size:0.95rem}
+    .small-note{margin-top:0.625rem;color:var(--muted);font-size:0.875rem;text-align:center}
+    .hidden{display:none}
+    @media (max-width:420px){ .card{padding:18px;border-radius:12px} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" id="card-content">
+      <h3>Salvo</h3>
+      <p id="count">Reiniciando em <strong class="count">8</strong> segundos...</p>
+      <button id="now" class="now-btn">Reiniciar agora</button>
+    </div>
+  </div>
+  <script>
+    (function(){
+      let t = 8;
+      const el = document.getElementById('count');
+      const btn = document.getElementById('now');
+      const card = document.getElementById('card-content');
+      // Inject explanatory text from script (keep DOM minimal/static)
+      (function injectExplain(){
+        if(card && !card.querySelector('.explain')){
+          const ex = document.createElement('div');
+          ex.className = 'explain';
+          ex.innerHTML = '<p class="muted">O dispositivo vai reiniciar e tentar conectar à rede.</p>' +
+                         '<p class="muted">Depois de reiniciar, o dispositivo fará parte da sua rede local e terá acesso à Internet para conexão MQTT. Isso pode alterar o endereço IP do dispositivo — para conectar-se novamente você precisa identificar o novo IP na sua rede.</p>' +
+                         '<p class="muted">Dicas: verifique a lista de dispositivos (clientes DHCP) no painel do roteador, tente o mDNS (ex.: <code>esp8266.local</code>), ou use um scanner de rede (ex.: Fing) para localizar o IP.</p>';
+          // insert before the countdown element if present, otherwise append
+          const countEl = document.getElementById('count');
+          if(countEl) card.insertBefore(ex, countEl);
+          else card.appendChild(ex);
+        }
+      })();
+      function update(){
+        if(t <= 0){ finish(); return; }
+        const strong = el.querySelector('strong.count');
+        if(strong) strong.textContent = t;
+        t--;
+        setTimeout(update, 1000);
+      }
+      function finish(){
+        try{ fetch('/restart',{method:'POST'}).catch(()=>{}); }catch(e){}
+        // Update heading to "Reiniciando..." but keep explanatory paragraphs below
+        const h3 = card.querySelector('h3'); if(h3) h3.textContent = 'Reiniciando...';
+        // animate hide the countdown and button
+        const countEl = document.getElementById('count');
+        const btnEl = document.getElementById('now');
+        if(countEl){ countEl.classList.add('fade-out'); }
+        if(btnEl){ btnEl.classList.add('fade-out'); }
+        // after animation remove from flow
+        setTimeout(()=>{ if(countEl) countEl.style.display='none'; if(btnEl) btnEl.style.display='none'; }, 340);
+        // append final notice, but avoid duplicates; animate fade-in
+        if(!card.querySelector('.final-msg')){
+          const final = document.createElement('p');
+          final.className = 'final-msg';
+          final.textContent = 'Você já pode fechar esta página, o IP mudou';
+          card.appendChild(final);
+          // trigger fade-in
+          setTimeout(()=>{ final.classList.add('show'); }, 40);
+        }
+      }
+      function doRestart(){ try{ fetch('/restart',{method:'POST'}).catch(()=>{}); }catch(e){} }
+      btn.addEventListener('click', ()=>{ doRestart(); finish(); });
+      setTimeout(update, 1000);
+    })();
+  </script>
+</body>
+</html>

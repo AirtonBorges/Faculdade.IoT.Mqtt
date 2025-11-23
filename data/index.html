@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DHT11 - ESP8266</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    :root{
+      --primary:#6200ee;
+      --on-primary:#ffffff;
+      --surface:#ffffff;
+      --bg:#f2f2f6;
+      --muted:#666;
+      --text:#222;
+      --muted-border: rgba(0,0,0,0.06);
+      --radius:0.5rem;
+      --pad:1rem;
+    }
+    body.dark{
+      --primary:#8b5cf6;
+      --on-primary:#ffffff;
+      --surface:#161616;
+      --bg:#0f0f10;
+      --muted:#bdbdbd;
+      --text:#eaeaea;
+      --muted-border: rgba(255,255,255,0.12);
+    }
+    /* common transitions (inlined) */
+    :root, body, .card, .title { transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease; }
+    body{font-family:Roboto,Arial,sans-serif;background:var(--bg);margin:0;padding:1.25rem;display:flex;align-items:flex-start;justify-content:center;min-height:100vh;color:var(--text)}
+    .wrap{width:100%;max-width:52rem;margin:0 auto}
+    @media (min-width:900px){ .wrap{width:68%;max-width:64rem} }
+    /* Keep metrics side-by-side on desktop and avoid wrapping the card */
+    @media (min-width:521px){
+      .card{flex-wrap:nowrap}
+      .metric{flex:1 1 calc(50% - 0.375rem)}
+    }
+    header{display:flex;align-items:center;justify-content:center;margin-bottom:1.125rem}
+    .title{background:var(--primary);color:var(--on-primary);padding:0.875rem 1.125rem;border-radius:var(--radius);box-shadow:0 0.125rem 0.5rem rgba(0,0,0,0.12);text-align:center;font-weight:500;font-size:1.125rem}
+    .card{background:var(--surface);border-radius:0.75rem;padding:1.25rem;box-shadow:0 0.5rem 1.25rem rgba(0,0,0,0.12);display:flex;flex-direction:row;align-items:stretch;gap:0.75rem;width:100%;min-height:6.25rem;border:1px solid var(--muted-border);flex-wrap:wrap}
+    .metric{flex:1 1 50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.5rem;text-align:center;min-width:0;max-width:100%}
+    .label{color:var(--muted);font-size:0.875rem;margin-bottom:0.5rem}
+    .value{font-size:clamp(3rem, 7.5vw, 4.5rem);line-height:1;font-weight:500;color:var(--text);display:flex;align-items:baseline;gap:0.4rem;justify-content:center;flex-wrap:nowrap}
+    .unit{font-size:clamp(1rem, 3vw, 1.25rem);color:var(--muted)}
+    .icon{font-size:0.6em;margin-right:0.4rem}
+    /* Responsive: stack metrics and adjust card height on narrow screens */
+    .small-note{margin-top:0.625rem;color:var(--muted);font-size:0.875rem;text-align:center}
+    .warning{display:none;width:100%;padding:1rem;border-radius:0.75rem;background:linear-gradient(90deg, rgba(255,69,58,0.06), rgba(255,69,58,0.03));border-left:6px solid #ff453a;color:var(--text);font-weight:700;text-align:center;font-size:clamp(1rem,2.8vw,1.3rem);box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    .warning:before{content:"⚠️";display:inline-block;margin-right:0.6rem;font-size:1.2em}
+    body.dark .warning{background:linear-gradient(90deg, #ff453a0f, rgba(255,69,58,0.02));border-left:6px solid #ff453a;color:var(--text)}
+    main{padding-bottom:4rem}
+    .bottom-action{position:fixed;left:50%;transform:translateX(-50%);bottom:1rem;display:flex;gap:0.5rem;z-index:40;align-items:center}
+    /* Make bottom actions adapt to narrow screens */
+    @media (max-width:520px){
+      .bottom-action{left:1rem;right:1rem;transform:none;bottom:0.75rem;justify-content:space-between;gap:0.5rem}
+      .bottom-action .action-btn{flex:1;min-width:0}
+    }
+    @media (max-width:380px){
+      .bottom-action{flex-direction:column;right:0.75rem;left:0.75rem}
+      .bottom-action .action-btn{width:100%}
+    }
+    /* action button styles (inlined) */
+    .action-btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1rem;border-radius:2rem;border:none;cursor:pointer;font-weight:400;font-size:clamp(0.95rem,3.5vw,1.05rem);align-self:center;white-space:nowrap;justify-content:center}
+    .action-btn.filled{background:var(--primary);color:var(--on-primary);box-shadow:0 6px 18px rgba(98,0,238,0.12)}
+    .action-btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--muted-border);min-width:0;padding:0.6rem 1rem}
+    body.dark .action-btn.ghost{border-color:var(--muted-border);color:var(--primary)}
+    .action-btn:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,0.08)}
+    .action-btn:active{transform:translateY(-1px) scale(0.995);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    body.dark .action-btn:hover{box-shadow:0 10px 24px rgba(255,255,255,0.02)}
+    /* Muted text helper */
+    .muted{color:var(--muted);font-size:0.95rem}
+    /* Utility: small note */
+    .small-note{margin-top:0.625rem;color:var(--muted);font-size:0.875rem;text-align:center}
+    /* Hide element via class */
+    .hidden{display:none}
+    .mqtt-panel{display:flex;gap:0.75rem;align-items:center;justify-content:center;margin:1.25rem auto 0;width:100%;max-width:48rem;padding:0 0.5rem}
+    .mqtt-panel.closed{display:none}
+    .mqtt-panel label{color:var(--muted);font-size:0.95rem;min-width:120px;text-align:right;margin-right:8px}
+    .mqtt-panel input[type=text]{flex:1;max-width:720px;padding:12px;height:44px;border-radius:10px;border:1px solid var(--muted-border);background:var(--surface);color:var(--text);font-size:0.95rem}
+    .mqtt-panel .action-btn{height:44px;padding:0 14px;border-radius:10px;align-self:stretch}
+    @media (max-width:520px){
+      .card{flex-direction:column;flex-wrap:wrap}
+      .metric{flex:0 0 100%;padding:0.5rem 0;max-width:100%}
+      .card{min-height:5rem}
+      .mqtt-panel{flex-direction:column;align-items:stretch;gap:0.5rem;padding:0}
+      .mqtt-panel label{min-width:0;text-align:left;margin-right:0;padding: 10px}
+      .mqtt-panel input[type=text]{width:100%;max-width:none}
+      .mqtt-panel .action-btn{width:100%;height:44px}
+    }
+    /* Force side-by-side layout on wider viewports to avoid wrapping when there is room */
+    @media (min-width:720px){
+      .card{flex-wrap:nowrap}
+      .metric{flex:0 0 50%;max-width:50%;min-width:12rem}
+    }
+    @media (max-width:380px){
+      .mqtt-panel{margin:1rem 0 0;padding:0 0.25rem}
+      .title{font-size:1rem}
+    }
+    .mqtt-msg{display:block;opacity:0;transform:translateY(-6px);transition:opacity 320ms ease, transform 320ms;max-width:100%;text-align:center;margin-top:0.6rem;padding:8px 10px;border-radius:8px;font-size:0.95rem}
+    .mqtt-msg.visible{opacity:1;transform:translateY(0)}
+    .mqtt-msg.success{background:linear-gradient(90deg, rgba(34,197,94,0.06), rgba(34,197,94,0.03));color:var(--text);border-left:4px solid #22c55e}
+    .mqtt-msg.error{background:linear-gradient(90deg, rgba(239,68,68,0.04), rgba(239,68,68,0.02));color:var(--text);border-left:4px solid #ef4444}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">DHT11 — ESP8266</div>
+    </header>
+    <main>
+      <div class="card">
+        <div class="metric" id="temp-card" style="border-right:1px solid rgba(0,0,0,0.06)">
+          <div class="label">Temperatura</div>
+          <div class="value"><span class="icon">🌡️</span><span id="temp">--</span><span class="unit">&deg;C</span></div>
+        </div>
+        <div class="metric" id="hum-card">
+          <div class="label">Umidade</div>
+          <div class="value"><span class="icon">💧</span><span id="hum">--</span><span class="unit">%</span></div>
+        </div>
+      </div>
+      <div class="small-note">Atualiza automaticamente; só muda quando valor flutua</div>
+      <div id="mqtt-panel" class="mqtt-panel closed">
+        <label for="mqtt-topic">Tópico MQTT</label>
+        <input id="mqtt-topic" type="text" placeholder="ex: esp/dht11/status">
+        <button id="mqtt-send" class="action-btn filled">Enviar</button>
+      </div>
+      <div id="mqtt-msg" class="mqtt-msg" aria-live="polite" role="status" style="display:block;visibility:visible"></div>
+      <div id="sensor-warning" class="warning" role="status" aria-live="polite">Aviso: sensor DHT11 não detectado. Verifique conexões e alimentação.</div>
+    </main>
+  </div>
+  <div class="bottom-action">
+    <button id="theme-toggle" class="action-btn ghost" aria-label="Alternar tema">🌙 Tema</button>
+    <button id="mqtt-toggle" class="action-btn ghost" aria-label="MQTT">MQTT</button>
+    <button id="reset-wifi" class="action-btn ghost" aria-label="Escolher outro Wi‑Fi">Escolher outro Wi‑Fi</button>
+  </div>
+  <script>
+    (function(){
+      const btn = document.getElementById('theme-toggle');
+      const apply = (mode)=>{ if(mode==='dark') document.body.classList.add('dark'); else document.body.classList.remove('dark'); if(btn) btn.textContent = (mode==='dark')? '☀️':'🌙'; };
+      const stored = localStorage.getItem('theme');
+      if(stored){ apply(stored); }
+      else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){ apply('dark'); }
+      if(btn){ btn.addEventListener('click', ()=>{
+        const isDark = document.body.classList.toggle('dark');
+        const mode = isDark? 'dark':'light';
+        localStorage.setItem('theme', mode);
+        btn.textContent = isDark? '☀️':'🌙';
+      }); }
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e=>{
+        if(!localStorage.getItem('theme')) apply(e.matches? 'dark':'light');
+      });
+    })();
+
+    let lastTemp = null, lastHum = null;
+    function showWarning(msg){
+      const warn = document.getElementById('sensor-warning');
+      const card = document.querySelector('.card');
+      const note = document.querySelector('.small-note');
+      if(card) card.style.display = 'none';
+      if(note) note.style.display = 'none';
+      if(warn){ warn.style.display = 'block'; warn.textContent = msg; }
+    }
+    function hideWarning(){
+      const warn = document.getElementById('sensor-warning');
+      const card = document.querySelector('.card');
+      const note = document.querySelector('.small-note');
+      if(warn) warn.style.display = 'none';
+      if(card) card.style.display = '';
+      if(note) note.style.display = '';
+    }
+    async function update(){
+      try{
+        const r = await fetch('/read');
+        let j = null;
+        try{ j = await r.json(); }catch(e){ j = null; }
+        if(!r.ok){
+          const msg = (j && j.error) ? ('Aviso: ' + j.error) : 'Aviso: falha ao ler sensor. Verifique conexões.';
+          showWarning(msg);
+          return;
+        }
+        if(j && j.error){ showWarning('Aviso: ' + j.error); return; }
+        hideWarning();
+        const temp = Math.round(j.temp * 10) / 10;
+        const hum = Math.round(j.hum * 10) / 10;
+        if (temp !== lastTemp || hum !== lastHum) {
+          document.getElementById('temp').textContent = temp.toFixed(1);
+          document.getElementById('hum').textContent = hum.toFixed(1);
+          lastTemp = temp;
+          lastHum = hum;
+        }
+      } catch(e){
+        console.error(e);
+        showWarning('Aviso: falha na comunicação com o dispositivo.');
+      }
+    }
+    setInterval(update, 3000);
+    update();
+    document.getElementById('reset-wifi').onclick = async function(){
+      if(!confirm('Deseja apagar as credenciais e escolher outro Wi‑Fi?')) return;
+      try{
+        const r = await fetch('/clear', {method:'POST'});
+        const txt = await r.text();
+        alert(txt);
+      }catch(e){
+        alert('Erro ao tentar resetar: ' + e);
+      }
+    };
+
+    const mqttToggle = document.getElementById('mqtt-toggle');
+    const mqttPanel = document.getElementById('mqtt-panel');
+    const mqttTopicInput = document.getElementById('mqtt-topic');
+    const mqttSend = document.getElementById('mqtt-send');
+    // safe localStorage helpers
+    const safeGet = (k)=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } };
+    const safeSet = (k,v)=>{ try{ localStorage.setItem(k,v); }catch(e){} };
+    const storedTopic = safeGet('mqttTopic'); if(storedTopic && mqttTopicInput) mqttTopicInput.value = storedTopic;
+    if(mqttToggle && mqttPanel){
+      mqttToggle.addEventListener('click', ()=>{
+        const closed = mqttPanel.classList.toggle('closed');
+        if(!closed){
+          try{ mqttPanel.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){}
+          mqttTopicInput && mqttTopicInput.focus();
+          mqttToggle.classList.replace('ghost','filled');
+        } else {
+          mqttToggle.classList.replace('filled','ghost');
+        }
+      });
+    }
+    function showMqttMsg(text, ok){
+      const el = document.getElementById('mqtt-msg');
+      if(!el) return;
+      el.textContent = text;
+      el.classList.remove('success','error');
+      el.classList.add(ok? 'success':'error');
+      el.classList.add('visible');
+      setTimeout(()=>{ el.classList.remove('visible'); }, 2000);
+    }
+    if(mqttSend){ mqttSend.addEventListener('click', async ()=>{
+      const topic = mqttTopicInput.value.trim();
+      if(!topic){ showMqttMsg('Informe um tópico MQTT.', false); mqttTopicInput.focus(); return; }
+      try{ safeSet('mqttTopic', topic); }catch(e){}
+      try{
+        const body = 'topic=' + encodeURIComponent(topic);
+        const r = await fetch('/mqtt/publish', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'}, body});
+        const txt = await r.text();
+        if(r.ok) showMqttMsg('Enviado: ' + txt, true);
+        else showMqttMsg('Falha ao enviar: ' + txt, false);
+      }catch(e){ showMqttMsg('Erro na comunicação', false); }
+    }); }
+  </script>
+</body>
+</html>
