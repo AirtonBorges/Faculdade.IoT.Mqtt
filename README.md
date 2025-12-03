@@ -2,11 +2,16 @@
 
 # Instalação
 
-1. Baixe o repositório em zip ou clone com GIT (se for em zip descompacte)
-2. Baixe e instale o VS code
+1. Baixe o repositório em [zip](https://github.com/AirtonBorges/Faculdade.IoT.Mqtt/archive/refs/heads/main.zip) e descompacte / ou clone com GIT:
+```bash
+git clone https://github.com/AirtonBorges/Faculdade.IoT.Mqtt.git
+```
+2. [Baixe e instale o VS code](https://code.visualstudio.com/download)
 3. Abra a pasta do projeto no VS code
-4. Marque a caixa e o botão __Confiar em todos os autores__
+4. Marque a caixa e o botão __Sim, confio nos autores__
+![](https://i.postimg.cc/QCRpWvTS/Code-Dd0tl-Hz-Ns-P.png)
 5. Aparecerá uma pequena janela no canto inferior direito. Instale as extensões recomendadas do __PlatformIO__ e __C/C++__
+![](https://i.postimg.cc/zXQJT83X/Code-r-WG8j-It-Oz-R.png)
 6. Clique em __Confiar em publicador & Instalar__
 7. Aguarde o PlatformIO instalar (demora alguns minutos e você também pode fechar as abas de __bem-vindo__, __release notes do PlatformIO__ e as __duas páginas de extensões abertas__)
 8. Após finalizar, reinicie o VS Code. Você irá observar que o PlatformIO automaticamente começará a instalar todas as dependências necessárias automaticamente de acordo com o arquivo `platformio.ini`. Aguarde mais alguns minutos para ele configurar o projeto (você pode fechar a aba __PIO HOME__)
