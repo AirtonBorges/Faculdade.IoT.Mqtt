@@ -60,11 +60,13 @@ Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o
 
 ![](https://i.imgur.com/zu3qJMV.png)
 
-13. Conecte o USB e clique em `Upload and Monitor` - Isso irá buildar, enviar o código para o chip e monitorar no terminal
+13. Conecte o USB e clique em `Upload and Monitor` - Isso irá buildar, enviar o código para o chip e monitorar no terminal. _Automaticamente o PlatformIO irá detectar a porta serial.__
 
 ![](https://i.imgur.com/zG35YGN.png)
 
 14. Observe o log terminal do VS Code para fazer o debug
+
+![](https://i.imgur.com/GwukZJ3.png)
 
 # Observações
 1. Após o primeiro build, será muito mais rápido fazer alterações no código, já que não é necessário buildar todas as outras vezes. Sempre clique em "Upload" quando fizer alguma alteração.
@@ -72,7 +74,7 @@ Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o
 
 ![](https://i.imgur.com/ZOJvdco.png)
 
-__FIM!__
+__FIM!__ 🎉🎉
 
 # Comandos úteis
 
