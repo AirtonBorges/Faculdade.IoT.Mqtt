@@ -1,5 +1,21 @@
-ESP8266 & DHT11 com MQTT
-=====================================
+# Configurar credenciais (env)
+
+1. Copie `include/env.h.example`, renomeie para `include/env.h` e insira suas credenciais.
+
+2. Edite `include/env.h` com seu SSID, senha e configurações MQTT.
+
+3. O arquivo `include/env.h` já está listado em `.gitignore`, portanto não será enviado ao repositório.
+
+4. Se você acidentalmente comitou `include/env.h`, remova-o do índice e crie um commit:
+
+```powershell
+git rm --cached include/env.h
+git commit -m "Remover env.h com credenciais"
+```
+
+O arquivo de exemplo `include/env.h.example` está mantido no repositório para que outros usuários possam copiar e configurar localmente.
+
+# Instalação
 
 1. [Instale o PlatformIO Core](https://docs.platformio.org/page/core.html)
 2. Execute esses comandos:
