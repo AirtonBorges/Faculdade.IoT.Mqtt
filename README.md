@@ -14,7 +14,7 @@ git clone https://github.com/AirtonBorges/Faculdade.IoT.Mqtt.git
 
 5. Aparecerá uma pequena janela no canto inferior direito. Instale as extensões recomendadas do __PlatformIO__ e __C/C++__
 
-![](https://i.postimg.cc/zXQJT83X/Code-r-WG8j-It-Oz-R.png)
+![](https://i.postimg.cc/zXQJT83X/Code_r_WG8j_It_Oz_R.png)
 
 6. Clique em __Confiar em publicador & Instalar__
 7. Aguarde o PlatformIO instalar (demora alguns minutos e você também pode fechar as abas de __bem-vindo__, __release notes do PlatformIO__ e as __duas páginas de extensões abertas__)
@@ -23,7 +23,7 @@ git clone https://github.com/AirtonBorges/Faculdade.IoT.Mqtt.git
 
 ![](https://i.postimg.cc/6q4VHBV4/sjuu-C0ouru.png)
 
-10. Siga em __Configurando credenciais (env.h)__ abaixo:
+10. Continue em [Configurando credenciais (env.h)](#configurando-credenciais-envh) logo abaixo:
 
 # Configurando credenciais (env.h)
 
@@ -53,7 +53,7 @@ O Windows automaticamente vai instalar. Mas se for necessário baixe e instale o
 
 11. Conecte os componentes na sua protoboard/breadboard de acordo com o diagrama:
 
-![](https://i.postimg.cc/wTHdYMP3/ESP-E12-DHT11-bb.jpg)
+![](https://i.postimg.cc/wTHdYMP3/ESP_E12_DHT11_bb.jpg)
 
 Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o-driver)
 12. Após configurar o `env.h`, clique no ícone do PlatformIO (que é uma cabeça de alienígena) na barra lateral esquerda do VS Code:
@@ -70,7 +70,7 @@ Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o
 1. Após o primeiro build, será muito mais rápido fazer alterações no código, já que não é necessário buildar todas as outras vezes. Sempre clique em "Upload" quando fizer alguma alteração.
 2. Encerre o terminal que está monitorando antes de fazer outro upload, senão acontecerá um erro de __acesso negado__.
 
-![](https://i.postimg.cc/wMYPc4JW/Code-BOck-Z3k-LMC.png)
+![](https://i.postimg.cc/wMYPc4JW/Code_BOck_Z3k_LMC.png)
 
 __FIM!__
 
