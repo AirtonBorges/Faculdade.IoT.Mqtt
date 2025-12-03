@@ -5,8 +5,7 @@ O ESP-12E __NÃO__ tem suporte para o protocolo __WPA2-Enterprise com PEAP-MSCHA
 Também __NÃO__ há suporte há frequência 5GHz, sendo obrigatória a utilização do 2.4GHz.⚠️
 
 ![](https://i.imgur.com/eHSMRzq.png)
-
-![](https://i.imgur.com/gbqbr79.jpeg)
+![](https://i.imgur.com/SoaJFyy.jpeg)
 
 Insira o nome e senha do WIFI hotspot/roteador no arquivo `env.h`, que é explicado em [Configurando credenciais (env.h)](#configurando-credenciais-envh)
 
