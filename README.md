@@ -10,18 +10,18 @@ git clone https://github.com/AirtonBorges/Faculdade.IoT.Mqtt.git
 3. Abra a pasta do projeto no VS code
 4. Marque a caixa e o botão __Sim, confio nos autores__
 
-![](https://i.postimg.cc/QCRpWvTS/Code-Dd0tl-Hz-Ns-P.png)
+![](https://i.imgur.com/mPUyMoG.png)
 
 5. Aparecerá uma pequena janela no canto inferior direito. Instale as extensões recomendadas do __PlatformIO__ e __C/C++__
 
-![](https://i.postimg.cc/zXQJT83X/Code_r_WG8j_It_Oz_R.png)
+![](https://i.imgur.com/lVE597o.png)
 
 6. Clique em __Confiar em publicador & Instalar__
 7. Aguarde o PlatformIO instalar (demora alguns minutos e você também pode fechar as abas de __bem-vindo__, __release notes do PlatformIO__ e as __duas páginas de extensões abertas__)
 8. Após finalizar, reinicie o VS Code. Você irá observar que o PlatformIO automaticamente começará a instalar todas as dependências necessárias automaticamente de acordo com o arquivo `platformio.ini`. Aguarde mais alguns minutos para ele configurar o projeto (você pode fechar a aba __PIO HOME__)
 9. Com a configuração finalizada, no inferior da tela do VS Code clique em `Default (Faculdade.IoT.Mqtt-main)` e escolha `env:dht11_mqtt`. Esse é o projeto da apresentação final. Se quiser testar outros projetos, é só clicar em outra opção (exceto Default, que irá buildar todos de uma vez só)
 
-![](https://i.postimg.cc/6q4VHBV4/sjuu-C0ouru.png)
+![](https://i.imgur.com/5c7lSmZ.png)
 
 10. Continue em [Configurando credenciais (env.h)](#configurando-credenciais-envh) logo abaixo:
 
@@ -31,7 +31,7 @@ git clone https://github.com/AirtonBorges/Faculdade.IoT.Mqtt.git
 
 Se tudo ocorrer bem, o resultado ficará assim:
 
-![](https://i.postimg.cc/52Fn2qZd/Code-h-UKl-K61a-CE.png)
+![](https://i.imgur.com/GRhMkqc.png)
 
 10.2. Edite o seu `env.h` com seu SSID, senha do seu WIFI e configurações MQTT.
 
@@ -53,16 +53,16 @@ O Windows automaticamente vai instalar. Mas se for necessário baixe e instale o
 
 11. Conecte os componentes na sua protoboard/breadboard de acordo com o diagrama:
 
-![](https://i.postimg.cc/wTHdYMP3/ESP_E12_DHT11_bb.jpg)
+![](https://i.imgur.com/kbVA6OZ.jpeg)
 
 Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o-driver)
 12. Após configurar o `env.h`, clique no ícone do PlatformIO (que é uma cabeça de alienígena) na barra lateral esquerda do VS Code:
 
-![](https://i.postimg.cc/v85dKfPf/Code-WJA1Qum-EHN.png)
+![](https://i.imgur.com/zu3qJMV.png)
 
 13. Conecte o USB e clique em `Upload and Monitor` - Isso irá buildar, enviar o código para o chip e monitorar no terminal
 
-![](https://i.postimg.cc/3r2HqmLv/Code-k-Za-HSe-FDn8.png)
+![](https://i.imgur.com/zG35YGN.png)
 
 14. Observe o log terminal do VS Code para fazer o debug
 
@@ -70,7 +70,7 @@ Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o
 1. Após o primeiro build, será muito mais rápido fazer alterações no código, já que não é necessário buildar todas as outras vezes. Sempre clique em "Upload" quando fizer alguma alteração.
 2. Encerre o terminal que está monitorando antes de fazer outro upload, senão acontecerá um erro de __acesso negado__.
 
-![](https://i.postimg.cc/wMYPc4JW/Code_BOck_Z3k_LMC.png)
+![](https://i.imgur.com/ZOJvdco.png)
 
 __FIM!__
 
