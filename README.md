@@ -1,4 +1,14 @@
-⚠️ __ATENÇÃO__: Os computadores da UNIVALI não permitem a instalação dos drivers do ESP8266 nem a conexão do NodeRED e VS Code por causa que é necessário permissões de admin do Firewall ⚠️
+⚠️ __ATENÇÃO__: Os computadores da UNIVALI não permitem a instalação dos drivers do ESP8266 nem a conexão do NodeRED e VS Code por causa que é necessário permissões de admin do Firewall.
+
+O ESP-12E __NÃO__ tem suporte para o protocolo __WPA2-Enterprise com PEAP-MSCHAPv2__ utilizado pela UNIVALI, mas é possível contornar abrindo um hotspot no seu notebook ou smartphone.
+
+Também __NÃO__ há suporte há frequência 5GHz, sendo obrigatória a utilização do 2.4GHz.⚠️
+
+![](https://i.imgur.com/eHSMRzq.png)
+
+![](https://i.imgur.com/gbqbr79.jpeg)
+
+Insira o nome e senha do WIFI hotspot/roteador no arquivo `env.h`, que é explicado em [Configurando credenciais (env.h)](#configurando-credenciais-envh)
 
 # Instalação
 
