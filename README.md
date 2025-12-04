@@ -14,9 +14,12 @@ O CH340 serve pra ligar o USB do seu PC ao chip, abrindo uma porta COM para mand
 
 A princípio o Windows automaticamente vai instalar o driver, mas caso isso não ocorra baixe e instale o driver do chip CH340 __[Aqui](https://www.usinainfo.com.br/index.php?controller=attachment&id_attachment=452)__.
 
-![](https://i.imgur.com/qVanEDU.jpeg)
+![](https://i.imgur.com/UCyv92o.jpeg)
+![](https://i.imgur.com/CqOD8ds.jpeg)
 
-![](https://i.imgur.com/LM2RfYG.png)
+![](https://i.imgur.com/Vg0h1yy.jpeg)
+
+O dispositivo só vai aparecer aqui se o driver estiver instalado e o USB conectado!
 
 Não se preocupe com a numeração da COM, __o PlatformIO irá detectar automaticamente__!
 
