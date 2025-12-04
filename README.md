@@ -7,9 +7,20 @@ Também __NÃO__ há suporte há frequência 5GHz, sendo obrigatória a utiliza�
 ![](https://i.imgur.com/eHSMRzq.png)
 ![](https://i.imgur.com/SoaJFyy.jpeg)
 
-Insira o nome e senha do WIFI hotspot/roteador no arquivo `env.h`, que é explicado em [Configurando credenciais (env.h)](#configurando-credenciais-envh)
+Se precisou usar o o hotspot/roteador, insira o nome e senha do WIFI dele no arquivo `env.h`, que é explicado em [Configurando credenciais (env.h)](#configurando-credenciais-envh)
 
-# Instalação
+# Instalando o driver do chip CH340
+O CH340 serve pra ligar o USB do seu PC ao chip, abrindo uma porta COM para mandar comandos, configurar, debugar ou atualizar o firmware. Consequentemente ele precisa de um driver instalado para ser reconhecido pelo seu sistema.
+
+A princípio o Windows automaticamente vai instalar o driver, mas caso isso não ocorra baixe e instale o driver do chip CH340 __[Aqui](https://www.usinainfo.com.br/index.php?controller=attachment&id_attachment=452)__.
+
+![](https://i.imgur.com/qVanEDU.jpeg)
+
+![](https://i.imgur.com/LM2RfYG.png)
+
+Não se preocupe com a numeração da COM, __o PlatformIO irá detectar automaticamente__!
+
+# Instalação do projeto
 
 1. Baixe o repositório em [zip](https://github.com/AirtonBorges/Faculdade.IoT.Mqtt/archive/refs/heads/main.zip) e descompacte / ou clone com GIT:
 ```bash
@@ -44,9 +55,9 @@ Se tudo ocorrer bem, o resultado ficará assim:
 
 10.2. Edite o seu `env.h` com seu SSID, senha do seu WIFI e configurações MQTT.
 
-10.3. O arquivo `env.h` já está listado em `.gitignore`, portanto não será enviado ao repositório.
+O arquivo `env.h` já está listado em `.gitignore`, portanto não será enviado ao repositório.
 
-10.4. Se você acidentalmente comitou `env.h`, remova-o do índice e crie um commit:
+Se você acidentalmente comitou `env.h`, remova-o do índice e crie um commit:
 
 ```powershell
 git rm --cached include/env.h
@@ -55,27 +66,25 @@ git commit -m "Remover env.h com credenciais"
 
 O arquivo de exemplo `include/env.h.example` está mantido no repositório para que outros usuários possam copiar e configurar localmente. __Mas não o exclua do repositório se você pretende desenvolver e fazer commits, pois senão ele será deletado do remoto__.
 
-# Instalando o driver
-O Windows automaticamente vai instalar. Mas se for necessário baixe e instale o driver do chip CH340 [Aqui](https://www.usinainfo.com.br/index.php?controller=attachment&id_attachment=452)
-
 # Pós env.h
 
 11. Conecte os componentes na sua protoboard/breadboard de acordo com o diagrama:
 
 ![](https://i.imgur.com/kbVA6OZ.jpeg)
 
-Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o-driver)
 12. Após configurar o `env.h`, clique no ícone do PlatformIO (que é uma cabeça de alienígena) na barra lateral esquerda do VS Code:
 
 ![](https://i.imgur.com/zu3qJMV.png)
 
-13. Conecte o USB e clique em `Upload and Monitor` - Isso irá buildar, enviar o código para o chip e monitorar no terminal. _Automaticamente o PlatformIO irá detectar a porta serial.__
+13. Conecte o USB e clique em `Upload and Monitor` - Isso irá buildar, enviar o código para o chip e monitorar no terminal. __O PlatformIO automaticamente irá detectar a porta serial.__
 
 ![](https://i.imgur.com/zG35YGN.png)
 
 14. Observe o log terminal do VS Code para fazer o debug
 
 ![](https://i.imgur.com/GwukZJ3.png)
+
+Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o-driver-do-chip-ch340)
 
 # Observações
 1. Após o primeiro build, será muito mais rápido fazer alterações no código, já que não é necessário buildar todas as outras vezes. Sempre clique em "Upload" quando fizer alguma alteração.
