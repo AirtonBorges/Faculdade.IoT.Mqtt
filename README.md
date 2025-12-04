@@ -26,7 +26,7 @@ Não se preocupe com a numeração da COM, __o PlatformIO irá detectar automati
 # Instalação do projeto
 
 1. Baixe o repositório em [zip](https://github.com/AirtonBorges/Faculdade.IoT.Mqtt/archive/refs/heads/main.zip) e descompacte / ou clone com GIT:
-```bash
+```shell
 git clone https://github.com/AirtonBorges/Faculdade.IoT.Mqtt.git
 ```
 2. [Baixe e instale o VS code](https://code.visualstudio.com/download)
@@ -62,7 +62,7 @@ O arquivo `env.h` já está listado em `.gitignore`, portanto não será enviado
 
 Se você acidentalmente comitou `env.h`, remova-o do índice e crie um commit:
 
-```powershell
+```shell
 git rm --cached include/env.h
 git commit -m "Remover env.h com credenciais"
 ```

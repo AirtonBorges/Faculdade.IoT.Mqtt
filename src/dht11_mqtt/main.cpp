@@ -1,8 +1,8 @@
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <PubSubClient.h>
-#include <DHT.h>
-#include "env.h"
+#include <ESP8266WiFi.h>    // Documentação: https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html
+#include <PubSubClient.h>   // Documentação: https://pubsubclient.knolleary.net/api
+#include <DHT.h>            // Documentação: https://learn.adafruit.com/dht
+#include "env.h"            // Arquivo com definições de WiFi e MQTT
 
 // Ajuste o pino conforme sua ligação
 #define DHTPIN D5
@@ -16,7 +16,7 @@ void connectWiFi() {
   Serial.print("Conectando em ");
   Serial.print(WIFI_SSID);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  unsigned long start = millis();
+  unsigned long start = millis(); // millis() retorna o número de milissegundos desde que o programa começou a ser executado
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print('.');
@@ -78,7 +78,7 @@ void loop() {
       return;
     }
 
-    // Usar os tópicos completos definidos em .env
+    // Usa os tópicos completos definidos no env.h
     String topicTemp = String(TOPICO_TEMPERATURA);
     String topicHum = String(TOPICO_UMIDADE);
 
