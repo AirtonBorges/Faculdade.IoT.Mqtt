@@ -2,7 +2,7 @@
 
 O ESP-12E __NÃO__ tem suporte para o protocolo __WPA2-Enterprise com PEAP-MSCHAPv2__ utilizado pela UNIVALI, mas é possível contornar abrindo um hotspot no seu notebook ou smartphone.
 
-Também __NÃO__ há suporte há frequência 5GHz, sendo obrigatória a utilização do 2.4GHz.⚠️
+Também __NÃO__ há suporte na frequência 5GHz, sendo obrigatória a utilização do 2.4GHz.⚠️
 
 ![](https://i.imgur.com/eHSMRzq.png)
 ![](https://i.imgur.com/SoaJFyy.jpeg)
@@ -97,7 +97,7 @@ Se seu ESP12E não foi reconhecido, [Instale o driver manualmente](#instalando-o
 
 __FIM!__ 🎉🎉
 
-# Comandos úteis
+# Comandos úteis do PlatformIO
 
 ```shell
 # Somente 'buildar' o projeto
